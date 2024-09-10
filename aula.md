@@ -7,3 +7,14 @@
 
 # strings:
 - Podem ser escritas como/entre ("", '', ``)
+
+# arrays
+//arrays e obkjetos (medo)
+
+    let meta = ["estudar", "hoje"]
+
+    console.log(meta[0])
+
+
+// Quando você junta dois valores, é contatemação
+//viu que daora? voce chamou por meio da posição dele??? aaaaa mulek
