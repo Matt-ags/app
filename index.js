@@ -1,4 +1,4 @@
-const { select, input } = require('@inquirer/prompts')
+const { select, input, checkbox } = require('@inquirer/prompts')
 
 
 ///abaixo é pra testar:
@@ -25,6 +25,36 @@ const cadastrarMeta = async() => {
         {value: meta, checked: false}
     )
 
+}
+
+const listarMetas = async() => {
+    const respostas = await checkbox({
+        message: "Use as setas para mudar de meta, o espaço para marcar ou desmarcar, e o enter para finalizar esta etapa.",
+        choices: [...metas], //cara isso é legal, ele meio que joga os valores da metas, com esses tres pontinhos, pois meio que fica mudando certo? por isso ele joga o que tem aqui!
+        instructions: false,
+    })
+
+    if(respostas.length == 0) {
+        console.log("Nenhuma meta selecionada!")
+        return
+    }
+
+    //isso abaixo desmarca todas as metas, mas lembra que logfo abaixo colocou que as selecionadas "pemanecem selecionadas?" então ele desmarca as desmarcadsas em resumo, para não dar erro.
+
+    metas.forEach((m) =>{
+        m.checked = false
+    })
+    
+    //para cada resposta:
+    respostas.forEach((resposta) => {
+        const meta = metas.find((m) => {
+            return m.value == resposta 
+        })
+            //meio que ele ta fazendo assim, pra cada meta selecionada, ele guardou, e compara, tipo, tem duas medas, andar e correr, e selecionei correr, ele vai e compara a cada meta selecionada com as medas, tipo, correr é igual a andasr, não, volta pra la, andar é igual a andar, sim, dai ele troca o checked para veradeiro!
+        meta.checked = true
+    })
+
+    console.log("Meta(s) marcada(s) como concluída(s)!")
 }
 
 const start = async() => {
@@ -66,7 +96,7 @@ const start = async() => {
                 break
             
             case "listar":
-                console.log("vamos listar")
+                await listarMetas()
                 break
             
             case "sair":
