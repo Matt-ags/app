@@ -1,4 +1,31 @@
-const { select } = require('@inquirer/prompts')
+const { select, input } = require('@inquirer/prompts')
+
+
+///abaixo é pra testar:
+
+let meta = {
+    value: "Tomar água",
+    checked: false,
+}
+
+let metas = [ meta ]
+const cadastrarMeta = async() => {
+
+    const meta = await input({ message: "Digite a meta:" }) 
+    //mesma coisa que o select, chamou na pasta, e espera agora o usuário colocar algo
+    //uso do legth fala se tem mais de um caractere! tipo, confirmar se o usuário colocou algo
+    if(meta.length == 0) {
+        console.log("A meta não pode ser vazia!")
+        return
+    }
+
+    //tendo algo, ele puxa pra metas (o array) o valor da meta, e lá depois, ele moctra as metas cadastradas.
+
+    metas.push(
+        {value: meta, checked: false}
+    )
+
+}
 
 const start = async() => {
 
@@ -33,6 +60,9 @@ const start = async() => {
         switch(opcao){
             case "cadastrar":
                 console.log("vamos cadastrar!")
+                await cadastrarMeta()
+                console.log( metas )
+                ///importante o uso este await!
                 break
             
             case "listar":
