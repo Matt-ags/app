@@ -35,3 +35,7 @@ const start2 = () => {
 start()
 
 start2()
+
+# significado:
+
+NPM = NODE PACKET MANAGER
