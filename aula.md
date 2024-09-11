@@ -18,3 +18,20 @@
 
 // Quando você junta dois valores, é contatemação
 //viu que daora? voce chamou por meio da posição dele??? aaaaa mulek
+
+# DIFERENÇAS FUNÇÕES:
+
+function start() {
+    console.log("oi")
+}
+
+//ou tambem:
+
+const start2 = () => {
+    console.log("oi")
+}
+
+
+start()
+
+start2()
