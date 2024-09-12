@@ -41,3 +41,9 @@ start2()
 NPM = NODE PACKET MANAGER
 
 Lembre-se que tudo pode ser transformado em objeto!
+
+# Resolvendo BUGS:
+
+- Logo após colocar a apresentação de netas realizadas, estava dando aquele bug de marca e desmarca uma meta, ela ainda fica marcada, como resolver???
+
+1° O que eu acho que esta acontecendo?

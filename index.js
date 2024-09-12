@@ -34,6 +34,12 @@ const listarMetas = async() => {
         instructions: false,
     })
 
+    metas.forEach((m) =>{
+        m.checked = false
+    })
+
+    //para resolver o bug do metas, basicamente sõ coloquei o metas.foreath antes de verificar se há uma meta realizada!
+
     if(respostas.length == 0) {
         console.log("Nenhuma meta selecionada!")
         return
@@ -41,9 +47,7 @@ const listarMetas = async() => {
 
     //isso abaixo desmarca todas as metas, mas lembra que logfo abaixo colocou que as selecionadas "pemanecem selecionadas?" então ele desmarca as desmarcadsas em resumo, para não dar erro.
 
-    metas.forEach((m) =>{
-        m.checked = false
-    })
+
     
     //para cada resposta:
     respostas.forEach((resposta) => {
