@@ -94,11 +94,40 @@ const metasAbertas = async() => {
     }
 
     await select ({
-        message: "Metas abertas " + abertas.length,
+        message: "Metas abertas: " + abertas.length,
         choices: [...abertas]
 
     })
 
+}
+
+const deletarMetas = async() => {
+    const metasDesmarcadas = metas.map((meta) => {
+        // o map altera de qualquer forma o array original!
+        return {value: meta.value, checked: false}
+
+    })
+
+    const itensADeletar = await checkbox({
+        message: "Selecione um item para deletar",
+        choices: [...metasDesmarcadas], //cara isso é legal, ele meio que joga os valores da metas, com esses tres pontinhos, pois meio que fica mudando certo? por isso ele joga o que tem aqui!
+        instructions: false,
+    })
+
+    if(itensADeletar.length == 0){
+        console.log("Nenhum item para deletar!")
+        return
+    }
+
+    itensADeletar.forEach((item) => {
+        metas = metas.filter((meta) => {
+            return meta.value != item
+            //só vai ficar na lista de metas aquilo não marcado
+
+        })
+    })
+
+    console.log("Meta(s) deletada(s) com sucesso!")
 }
 
 const start = async() => {
@@ -133,6 +162,11 @@ const start = async() => {
                 },
 
                 {
+                    name: "Deletar metas",
+                    value: "deletar"
+                },
+
+                {
                     name: "Sair",
                     value: "sair"
                 }
@@ -160,6 +194,10 @@ const start = async() => {
 
             case "abertas":
                 await metasAbertas()
+                break
+
+            case "deletar":
+                await deletarMetas()
                 break
             
             case "sair":
