@@ -1,15 +1,28 @@
 const { select, input, checkbox } = require('@inquirer/prompts')
+const fs = require("fs").promises
 
 let mensagem = "Bem vindo(a) ao app de metas";
 
 ///abaixo é pra testar:
 
-let meta = {
-    value: "Tomar água",
-    checked: false,
+let metas
+
+
+//verificar esta parte de carregar metas::
+const carregarMetas = async () => {
+    try{
+        const dados = await fs.readFile("metas.json", "utf-8")
+        metas = JSON.parse(dados)
+    }
+    catch{erro} {
+        metas = []
+    }
 }
 
-let metas = [ meta ]
+const salvarMetas = async() => {
+    await fs.writeFile("metas.json", JSON.stringify(metas, null, 2))
+}
+
 const cadastrarMeta = async() => {
 
     const meta = await input({ message: "Digite a meta:" }) 
@@ -31,6 +44,12 @@ const cadastrarMeta = async() => {
 }
 
 const listarMetas = async() => {
+
+    if(metas.length == 0){
+        mensagem = "Não existem metas!"
+        return
+    }
+
     const respostas = await checkbox({
         message: "Use as setas para mudar de meta, o espaço para marcar ou desmarcar, e o enter para finalizar esta etapa.",
         choices: [...metas], //cara isso é legal, ele meio que joga os valores da metas, com esses tres pontinhos, pois meio que fica mudando certo? por isso ele joga o que tem aqui!
@@ -65,6 +84,12 @@ const listarMetas = async() => {
 }
 
 const metasRealizadas = async() => {
+
+    if(metas.length == 0){
+        mensagem = "Não existem metas!"
+        return
+    }
+
     const realizadas = metas.filter((meta) => {
         return meta.checked
     })
@@ -86,6 +111,12 @@ const metasRealizadas = async() => {
 }
 
 const metasAbertas = async() => {
+
+    if(metas.length == 0){
+        mensagem = "Não existem metas!"
+        return
+    }
+
     const abertas = metas.filter((meta) => {
         return meta.checked != true
         //lembra que etsa fun~]ao só recebe um valor que seja verdadeiro, ou seja, metaschecked é diferente de verdadeiiro? ou seja, ele vai ver cada meta, seu checked, se for verdadeiro, pula, se for falso, que é diferente de verdadeiro, ele retoma
@@ -105,6 +136,12 @@ const metasAbertas = async() => {
 }
 
 const deletarMetas = async() => {
+
+    if(metas.length == 0){
+        mensagem = "Não existem metas!"
+        return
+    }
+    
     const metasDesmarcadas = metas.map((meta) => {
         // o map altera de qualquer forma o array original!
         return {value: meta.value, checked: false}
@@ -144,8 +181,11 @@ const mostrarMensagem = () => {
 }
 const start = async() => {
 
+    await carregarMetas()
+
     while(true){
         mostrarMensagem()
+        await salvarMetas()
 
         //esse await (pra funcionar, tenha o async na função) fala pro js, "espera, o usuário vai selecionar algo!"
 
