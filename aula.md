@@ -39,3 +39,5 @@ start2()
 # significado:
 
 NPM = NODE PACKET MANAGER
+
+Lembre-se que tudo pode ser transformado em objeto!

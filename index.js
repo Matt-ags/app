@@ -57,6 +57,26 @@ const listarMetas = async() => {
     console.log("Meta(s) marcada(s) como concluída(s)!")
 }
 
+const metasRealizadas = async() => {
+    const realizadas = metas.filter((meta) => {
+        return meta.checked
+    })
+
+    if(realizadas.length == 0){
+        console.log("Não existem metas realizadas! D:" )
+    }
+
+    await select({
+        message: "Metas realizadas:",
+        choices: [...realizadas]
+    })
+
+    //basicamente fazendo uma listinha das realizadas
+
+    console.log(realizadas)
+    //esse filter é uma "HOF", ele sempre recebe uma função
+}
+
 const start = async() => {
 
     while(true){
@@ -66,6 +86,8 @@ const start = async() => {
         const opcao = await select ({
             message: "Menu >",
             choices: [
+                //nome do value tem que ser identico com o do case!
+
                 {
                     name: "Cadastrar meta",
                     value: "cadastrar",
@@ -74,6 +96,11 @@ const start = async() => {
                 {
                     name: "Listar metas",
                     value: "listar"
+                },
+
+                {
+                    name: "Metas realizadas",
+                    value: "realizadas"
                 },
 
                 {
@@ -89,7 +116,6 @@ const start = async() => {
 
         switch(opcao){
             case "cadastrar":
-                console.log("vamos cadastrar!")
                 await cadastrarMeta()
                 console.log( metas )
                 ///importante o uso este await!
@@ -97,6 +123,10 @@ const start = async() => {
             
             case "listar":
                 await listarMetas()
+                break
+
+            case "realizadas":
+                await metasRealizadas()
                 break
             
             case "sair":
