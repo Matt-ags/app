@@ -1,5 +1,6 @@
 const { select, input, checkbox } = require('@inquirer/prompts')
 
+let mensagem = "Bem vindo(a) ao app de metas";
 
 ///abaixo é pra testar:
 
@@ -15,7 +16,7 @@ const cadastrarMeta = async() => {
     //mesma coisa que o select, chamou na pasta, e espera agora o usuário colocar algo
     //uso do legth fala se tem mais de um caractere! tipo, confirmar se o usuário colocou algo
     if(meta.length == 0) {
-        console.log("A meta não pode ser vazia!")
+        mensagem = "A meta não pode ser vazia!"
         return
     }
 
@@ -24,6 +25,8 @@ const cadastrarMeta = async() => {
     metas.push(
         {value: meta, checked: false}
     )
+
+    mensagem = "Meta cadastrada com sucesso!"
 
 }
 
@@ -41,7 +44,7 @@ const listarMetas = async() => {
     //para resolver o bug do metas, basicamente sõ coloquei o metas.foreath antes de verificar se há uma meta realizada!
 
     if(respostas.length == 0) {
-        console.log("Nenhuma meta selecionada!")
+        mensagem = "Nenhuma meta selecionada!"
         return
     }
 
@@ -58,7 +61,7 @@ const listarMetas = async() => {
         meta.checked = true
     })
 
-    console.log("Meta(s) marcada(s) como concluída(s)!")
+    mensagem = "Meta(s) marcada(s) como concluída(s)!"
 }
 
 const metasRealizadas = async() => {
@@ -67,7 +70,7 @@ const metasRealizadas = async() => {
     })
 
     if(realizadas.length == 0){
-        console.log("Não existem metas realizadas! D:" )
+        mensagem = "Não existem metas realizadas! D:" 
         return
     }
 
@@ -78,7 +81,7 @@ const metasRealizadas = async() => {
 
     //basicamente fazendo uma listinha das realizadas
 
-    console.log(realizadas)
+    // console.log(realizadas)
     //esse filter é uma "HOF", ele sempre recebe uma função
 }
 
@@ -89,7 +92,7 @@ const metasAbertas = async() => {
     })
 
     if(abertas.length == 0){
-        console.log("Não existem metas abertas! :D")
+        mensagem = "Não existem metas abertas! :D"
         return
     }
 
@@ -115,7 +118,7 @@ const deletarMetas = async() => {
     })
 
     if(itensADeletar.length == 0){
-        console.log("Nenhum item para deletar!")
+        mensagem = "Nenhum item para deletar!"
         return
     }
 
@@ -127,12 +130,22 @@ const deletarMetas = async() => {
         })
     })
 
-    console.log("Meta(s) deletada(s) com sucesso!")
+    mensagem = "Meta(s) deletada(s) com sucesso!"
 }
 
+const mostrarMensagem = () => {
+    console.clear();
+
+    if(mensagem != ""){
+        console.log(mensagem)
+        console.log(" ")
+        mensagem = ""
+    }
+}
 const start = async() => {
 
     while(true){
+        mostrarMensagem()
 
         //esse await (pra funcionar, tenha o async na função) fala pro js, "espera, o usuário vai selecionar algo!"
 
@@ -180,7 +193,6 @@ const start = async() => {
         switch(opcao){
             case "cadastrar":
                 await cadastrarMeta()
-                console.log( metas )
                 ///importante o uso este await!
                 break
             
