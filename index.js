@@ -68,10 +68,11 @@ const metasRealizadas = async() => {
 
     if(realizadas.length == 0){
         console.log("Não existem metas realizadas! D:" )
+        return
     }
 
     await select({
-        message: "Metas realizadas:",
+        message: "Metas realizadas: " + realizadas.length,
         choices: [...realizadas]
     })
 
@@ -79,6 +80,25 @@ const metasRealizadas = async() => {
 
     console.log(realizadas)
     //esse filter é uma "HOF", ele sempre recebe uma função
+}
+
+const metasAbertas = async() => {
+    const abertas = metas.filter((meta) => {
+        return meta.checked != true
+        //lembra que etsa fun~]ao só recebe um valor que seja verdadeiro, ou seja, metaschecked é diferente de verdadeiiro? ou seja, ele vai ver cada meta, seu checked, se for verdadeiro, pula, se for falso, que é diferente de verdadeiro, ele retoma
+    })
+
+    if(abertas.length == 0){
+        console.log("Não existem metas abertas! :D")
+        return
+    }
+
+    await select ({
+        message: "Metas abertas " + abertas.length,
+        choices: [...abertas]
+
+    })
+
 }
 
 const start = async() => {
@@ -108,6 +128,11 @@ const start = async() => {
                 },
 
                 {
+                    name: "Metas abertas",
+                    value: "abertas"
+                },
+
+                {
                     name: "Sair",
                     value: "sair"
                 }
@@ -131,6 +156,10 @@ const start = async() => {
 
             case "realizadas":
                 await metasRealizadas()
+                break
+
+            case "abertas":
+                await metasAbertas()
                 break
             
             case "sair":
